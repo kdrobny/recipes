@@ -1,0 +1,10 @@
+<div class="card">
+  <div class="card-heading" (click)="toggle.emit()">
+    <h2 class="mb-0">
+    {{title}}
+    </h2>
+  </div>
+  <div class="card-body" *ngIf="opened">
+    <ng-content></ng-content>
+  </div>
+</div>

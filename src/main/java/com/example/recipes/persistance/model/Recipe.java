@@ -9,7 +9,9 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    @Column(name = "ingredients", length = 4000)
     private String ingredients;
+    @Column(name = "directions", length = 4000)
     private String directions;
     @Column(name = "id_category")
     private Long idCategory;

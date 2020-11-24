@@ -6,7 +6,12 @@ import com.example.recipes.rest.dto.RecipeDto;
 import com.example.recipes.rest.exception.RecipeNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -19,13 +24,13 @@ public class RecipeController {
     @Autowired
     private ModelMapper modelMapper;
 
-//    @GetMapping
-//    public List findAll() {
-//        return StreamSupport.stream(customerRepository.findAll().spliterator(), false)
-//                .map(this::convertToDto)
-//                .collect(Collectors.toList());
-//    }
-//
+    @GetMapping
+    public List findAll() {
+        return StreamSupport.stream(recipeRepository.findAll().spliterator(), false)
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
 //    @GetMapping("/lastName/{lastName}")
 //    public List findByLastName(@PathVariable String lastName) {
 //        return customerRepository.findByLastName(lastName)
@@ -44,13 +49,13 @@ public class RecipeController {
 //                .orElseThrow(() -> new CustomerNotFoundException("Could not find customer " + id)));
 //    }
 //
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public CustomerDto create(@RequestBody CustomerDto customerDto) {
-//        Customer customer = convertToEntity(customerDto);
-//        Customer customerCreated = customerRepository.save(customer);
-//        return convertToDto(customerCreated);
-//    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public RecipeDto create(@RequestBody RecipeDto recipeDto) {
+        Recipe recipe = convertToEntity(recipeDto);
+        Recipe recipeCreated = recipeRepository.save(recipe);
+        return convertToDto(recipeCreated);
+    }
 //
 //    @DeleteMapping("/{id}")
 //    public void delete(@PathVariable Long id) {
