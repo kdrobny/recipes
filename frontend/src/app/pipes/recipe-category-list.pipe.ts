@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {Recipe} from "../model/recipe";
-import {RecipeCategory} from "../model/recipe-category";
+import {RecipeCategoryPanel} from "../model/recipe-category-panel";
 
 @Pipe({
   name: 'recipeCategoryList'
@@ -8,14 +8,14 @@ import {RecipeCategory} from "../model/recipe-category";
 export class RecipeCategoryListPipe implements PipeTransform {
 
   // get distinct category list
-  transform(recipeList: Recipe[]): RecipeCategory[] {
+  transform(recipeList: Recipe[]): RecipeCategoryPanel[] {
     if (!recipeList) {
       return null;
     }
     else {
-      return recipeList.map(el => new RecipeCategory(el))
+      return recipeList.map(el => new RecipeCategoryPanel(el))
                 .filter((rc, i, srcArr) =>
-                    srcArr.findIndex(el => el.idCategory === rc.idCategory) === i);
+                    srcArr.findIndex(el => el.desc === rc.desc) === i);
     }
   }
 

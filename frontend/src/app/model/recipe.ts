@@ -8,4 +8,7 @@ export class Recipe {
   idPreparationTime : number;
   idDifficulty : number;
 
+  categoryDescRO : string;
+  preparationTimeDescRO : string;
+  difficultyDescRO : string;
 }

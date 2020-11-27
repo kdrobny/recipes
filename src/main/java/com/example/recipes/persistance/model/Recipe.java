@@ -8,41 +8,37 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String title;
-    @Column(name = "ingredients", length = 4000)
+
+    @Column(name = "INGREDIENTS", length = 4000)
     private String ingredients;
-    @Column(name = "directions", length = 4000)
+
+    @Column(name = "DIRECTIONS", length = 4000)
     private String directions;
-    @Column(name = "id_category")
-    private Long idCategory;
-    @Column(name = "id_preparation_time")
-    private Long idPreparationTime;
-    @Column(name = "id_difficulty")
-    private Long idDifficulty;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_CATEGORY", referencedColumnName = "ID")
+    private RecipeCategory recipeCategory;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_PREPARATION_TIME", referencedColumnName = "ID")
+    private RecipePreparationTime recipePreparationTime;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_DIFFICULTY", referencedColumnName = "ID")
+    private RecipeDifficulty recipeDifficulty;
 
     protected Recipe() {
     }
 
-    public Recipe(String title, String ingredients, String directions, Long idCategory, Long idPreparationTime, Long idDifficulty) {
+    public Recipe(String title, String ingredients, String directions, RecipeCategory recipeCategory, RecipePreparationTime recipePreparationTime, RecipeDifficulty recipeDifficulty) {
         this.title = title;
         this.ingredients = ingredients;
         this.directions = directions;
-        this.idCategory = idCategory;
-        this.idPreparationTime = idPreparationTime;
-        this.idDifficulty = idDifficulty;
-    }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", ingredients='" + ingredients + '\'' +
-                ", directions='" + directions + '\'' +
-                ", idCategory=" + idCategory +
-                ", idPreparationTime=" + idPreparationTime +
-                ", idDifficulty=" + idDifficulty +
-                '}';
+        this.recipeCategory = recipeCategory;
+        this.recipePreparationTime = recipePreparationTime;
+        this.recipeDifficulty = recipeDifficulty;
     }
 
     public Long getId() {
@@ -77,28 +73,41 @@ public class Recipe {
         this.directions = directions;
     }
 
-    public Long getIdCategory() {
-        return idCategory;
+    public RecipeCategory getRecipeCategory() {
+        return recipeCategory;
     }
 
-    public void setIdCategory(Long idCategory) {
-        this.idCategory = idCategory;
+    public void setRecipeCategory(RecipeCategory recipeCategory) {
+        this.recipeCategory = recipeCategory;
     }
 
-    public Long getIdPreparationTime() {
-        return idPreparationTime;
+    public RecipePreparationTime getRecipePreparationTime() {
+        return recipePreparationTime;
     }
 
-    public void setIdPreparationTime(Long idPreparationTime) {
-        this.idPreparationTime = idPreparationTime;
+    public void setRecipePreparationTime(RecipePreparationTime recipePreparationTime) {
+        this.recipePreparationTime = recipePreparationTime;
     }
 
-    public Long getIdDifficulty() {
-        return idDifficulty;
+    public RecipeDifficulty getRecipeDifficulty() {
+        return recipeDifficulty;
     }
 
-    public void setIdDifficulty(Long idDifficulty) {
-        this.idDifficulty = idDifficulty;
+    public void setRecipeDifficulty(RecipeDifficulty recipeDifficulty) {
+        this.recipeDifficulty = recipeDifficulty;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", ingredients='" + ingredients + '\'' +
+                ", directions='" + directions + '\'' +
+                ", recipeCategory=" + recipeCategory +
+                ", recipePreparationTime=" + recipePreparationTime +
+                ", recipeDifficulty=" + recipeDifficulty +
+                '}';
     }
 
 }

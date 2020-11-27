@@ -1,30 +1,30 @@
 <div class="container">
-  <ul>
-    <li><a routerLinkActive="active" routerLink="/home">Home</a></li>
-    <li><a routerLinkActive="active" routerLink="/login">Login</a></li>
-    <li><a (click)="logout()">Logout</a></li>
-  </ul>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-dark my-5">
-        <div class="card-body">
-          <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <a routerLink="/recipes" class="btn btn-info">List Recipes</a>
-            </li>
-            <li class="list-inline-item">
-              <a routerLink="/addrecipe" class="btn btn-info">Add Recipe</a>
-            </li>
-          </ul>
-        </div>
+  <div class="col-md-12">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <a routerLink="/home"><img src="/assets/Cook-Book-icon.png" alt="home"></a>
       </div>
-      <router-outlet></router-outlet>
+      <div class="col-md-6">
+        <h2>{{ title }}</h2>
+        <ul class="text-left list-inline py-3">
+          <li class="list-inline-item">
+            <a routerLink="/recipes" class="btn btn-info">List Recipes</a>
+          </li>
+          <li class="list-inline-item">
+            <a routerLink="/addrecipe" class="btn btn-info">Add Recipe</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-1">
+        <p class="text-left"><a routerLink="/login">Login</a></p>
+      </div>
+      <div class="col-md-1">
+        <p class="text-left"><a (click)="logout()">Logout</a></p>
+      </div>
     </div>
   </div>
-</div>
-<div [hidden]="authenticated()">
-  <p>Login to application</p>
+  <div [hidden]="authenticated()">
+    <h3>Login to application</h3>
+  </div>
+  <router-outlet></router-outlet>
 </div>

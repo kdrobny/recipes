@@ -9,6 +9,9 @@ public class RecipeDto {
     private Long idCategory;
     private Long idPreparationTime;
     private Long idDifficulty;
+    private String categoryDescRO;
+    private String preparationTimeDescRO;
+    private String difficultyDescRO;
 
     public Long getId() {
         return id;
@@ -66,4 +69,27 @@ public class RecipeDto {
         this.idDifficulty = idDifficulty;
     }
 
+    public String getCategoryDescRO() {
+        return categoryDescRO;
+    }
+
+    public void setCategoryDescRO(String categoryDescRO) {
+        this.categoryDescRO = categoryDescRO;
+    }
+
+    public String getPreparationTimeDescRO() {
+        return preparationTimeDescRO;
+    }
+
+    public void setPreparationTimeDescRO(String preparationTimeDescRO) {
+        this.preparationTimeDescRO = preparationTimeDescRO;
+    }
+
+    public String getDifficultyDescRO() {
+        return difficultyDescRO;
+    }
+
+    public void setDifficultyDescRO(String difficultyDescRO) {
+        this.difficultyDescRO = difficultyDescRO;
+    }
 }

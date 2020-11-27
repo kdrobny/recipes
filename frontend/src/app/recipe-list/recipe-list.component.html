@@ -18,10 +18,11 @@
     </table-->
 
     <app-panel *ngFor="let recipeCategory of recipes | recipeCategoryList"
-           [title]="recipeCategory.idCategory" [opened]="recipeCategory.opened"
-           (toggle)="recipeCategory.opened = !recipeCategory.opened">
-      <div *ngFor="let recipe of recipes | recipeFilterCategory:recipeCategory.idCategory">
+               [title]="recipeCategory.desc" [opened]="recipeCategory.opened"
+               (toggle)="recipeCategory.opened = !recipeCategory.opened">
+      <div *ngFor="let recipe of recipes | recipeFilterCategory:recipeCategory.desc">
         <h3>{{ recipe.title }}</h3>
+        <p><i>Difficulty: {{recipe.difficultyDescRO}} PreparationTime: {{recipe.preparationTimeDescRO}}</i></p>
         <p>{{ recipe.ingredients }}</p>
         <p>{{ recipe.directions }}</p>
       </div>

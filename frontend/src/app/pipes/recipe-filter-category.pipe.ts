@@ -6,13 +6,13 @@ import {Recipe} from "../model/recipe";
 })
 export class RecipeFilterCategoryPipe implements PipeTransform {
 
-  transform(recipeList: Recipe[], idCategory: number): Recipe[] {
-    if (!idCategory || !recipeList) {
+  transform(recipeList: Recipe[], categoryDesc: string): Recipe[] {
+    if (!categoryDesc || !recipeList) {
       return recipeList;
     }
     else {
       return recipeList.filter(
-        el => el.idCategory === idCategory
+        el => el.categoryDescRO === categoryDesc
       );
     }
   }
