@@ -1,23 +1,6 @@
 <div class="card my-5">
   <div class="card-body">
-    <!--table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Category</th>
-        <th scope="col">Title</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let recipe of recipes">
-        <td>{{ recipe.id }}</td>
-        <td>{{ recipe.idCategory }}</td>
-        <td>{{ recipe.title }}</td>
-      </tr>
-      </tbody>
-    </table-->
-
-    <app-panel *ngFor="let recipeCategory of recipes | recipeCategoryList"
+    <app-panel *ngFor="let recipeCategory of recipeCategoryList | recipeCategoryList"
                [title]="recipeCategory.desc" [opened]="recipeCategory.opened"
                (toggle)="recipeCategory.opened = !recipeCategory.opened">
       <div *ngFor="let recipe of recipes | recipeFilterCategory:recipeCategory.desc">

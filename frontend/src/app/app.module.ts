@@ -23,6 +23,8 @@ import { LoginComponent } from './login/login.component';
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {EnumService} from "./service/enum.service";
+import {EnumResolve} from "./resolvers/enum.resolve";
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -93,6 +95,8 @@ export class HttpXsrfInterceptor implements HttpInterceptor {
     FormsModule
   ],
   providers: [RecipeService,
+    EnumService,
+    EnumResolve,
     {provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: HttpXsrfInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

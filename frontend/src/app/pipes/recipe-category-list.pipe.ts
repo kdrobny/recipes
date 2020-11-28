@@ -1,6 +1,6 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import {Recipe} from "../model/recipe";
+import {Pipe, PipeTransform} from '@angular/core';
 import {RecipeCategoryPanel} from "../model/recipe-category-panel";
+import {Enum} from "../model/enum";
 
 @Pipe({
   name: 'recipeCategoryList'
@@ -8,7 +8,7 @@ import {RecipeCategoryPanel} from "../model/recipe-category-panel";
 export class RecipeCategoryListPipe implements PipeTransform {
 
   // get distinct category list
-  transform(recipeList: Recipe[]): RecipeCategoryPanel[] {
+  transform(recipeList: Enum[]): RecipeCategoryPanel[] {
     if (!recipeList) {
       return null;
     }
