@@ -1,10 +1,18 @@
 package com.example.recipes.rest;
 
+import com.example.recipes.RecipesApplication;
 import com.example.recipes.persistance.model.Recipe;
+import com.example.recipes.persistance.model.RecipeCategory;
+import com.example.recipes.persistance.model.RecipeDifficulty;
+import com.example.recipes.persistance.model.RecipePreparationTime;
+import com.example.recipes.persistance.repo.RecipeCategoryRepository;
 import com.example.recipes.persistance.repo.RecipeRepository;
 import com.example.recipes.rest.dto.RecipeDto;
-import com.example.recipes.rest.exception.RecipeNotFoundException;
+import com.example.recipes.rest.exception.EntityIdMismatchException;
+import com.example.recipes.rest.exception.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +25,13 @@ import java.util.stream.StreamSupport;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/recipes")
 public class RecipeController {
+    private static final Logger log = LoggerFactory.getLogger(RecipeController.class);
 
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private RecipeCategoryRepository recipeCategoryRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -31,24 +43,20 @@ public class RecipeController {
                 .collect(Collectors.toList());
     }
 
-//    @GetMapping("/lastName/{lastName}")
-//    public List findByLastName(@PathVariable String lastName) {
-//        return customerRepository.findByLastName(lastName)
-//                .stream()
-//                .map(this::convertToDto)
-//                .collect(Collectors.toList());
-//    }
-//
+    @GetMapping("/title/{title}")
+    public List findByTitle(@PathVariable String title) {
+        return recipeRepository.findByTitle(title)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("/{id}")
     public RecipeDto findOne(@PathVariable Long id) {
         return convertToDto(recipeRepository.findById(id)
-                .orElseThrow(() -> new RecipeNotFoundException("Could not find recipe " + id)));
+                .orElseThrow(() -> new EntityNotFoundException("Could not find recipe " + id)));
     }
-//    public CustomerDto findOne(@PathVariable Long id) {
-//        return convertToDto(customerRepository.findById(id)
-//                .orElseThrow(() -> new CustomerNotFoundException("Could not find customer " + id)));
-//    }
-//
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RecipeDto create(@RequestBody RecipeDto recipeDto) {
@@ -56,30 +64,30 @@ public class RecipeController {
         Recipe recipeCreated = recipeRepository.save(recipe);
         return convertToDto(recipeCreated);
     }
-//
-//    @DeleteMapping("/{id}")
-//    public void delete(@PathVariable Long id) {
-//        customerRepository.findById(id)
-//                .orElseThrow(() -> new CustomerNotFoundException("Could not find customer " + id));
-//        customerRepository.deleteById(id);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public CustomerDto updateCustomer(@RequestBody CustomerDto customerDto, @PathVariable Long id) {
-//        if (customerDto.getId() != id) {
-//            throw new CustomerIdMismatchException();
-//        }
-//
-//        Customer customer = customerRepository.findById(id)
-//                .orElseThrow(() -> new CustomerNotFoundException("Could not find customer " + id));
-//
-//        customer = updateEntity(customer, customerDto);
-//
-//        Customer customerUpdated = customerRepository.save(customer);
-//
-//        return convertToDto(customerUpdated);
-//    }
-//
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        recipeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find customer " + id));
+        recipeRepository.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public RecipeDto updateRecipe(@RequestBody RecipeDto recipeDto, @PathVariable Long id) {
+        if (id != recipeDto.getId()) {
+            throw new EntityIdMismatchException();
+        }
+
+        Recipe recipe = recipeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find recipe " + id));
+
+        recipe = updateEntity(recipe, recipeDto);
+
+        Recipe recipeUpdated = recipeRepository.save(recipe);
+
+        return convertToDto(recipeUpdated);
+    }
+
     private RecipeDto convertToDto(Recipe recipe) {
         RecipeDto recipeDto = modelMapper.map(recipe, RecipeDto.class);
 

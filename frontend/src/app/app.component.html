@@ -10,7 +10,7 @@
           <li class="list-inline-item">
             <a routerLink="/recipes" class="btn btn-info">List Recipes</a>
           </li>
-          <li class="list-inline-item">
+          <li *ngIf="isAdmin()" class="list-inline-item">
             <a routerLink="/addrecipe" class="btn btn-info">Add Recipe</a>
           </li>
         </ul>

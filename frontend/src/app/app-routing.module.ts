@@ -10,6 +10,7 @@ const routes: Routes = [
   {path: 'home', component: RecipeListComponent, resolve: {enums : EnumResolve} },
   {path: 'recipes', component: RecipeListComponent, resolve: {enums : EnumResolve} },
   {path: 'addrecipe', component: RecipeFormComponent, resolve: {enums : EnumResolve} },
+  {path: 'editrecipe/:id', component: RecipeFormComponent, resolve: {enums : EnumResolve} },
   {path: 'login', component: LoginComponent}
 ];
 

@@ -1,5 +1,6 @@
 package com.example.recipes.config;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,11 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .inMemoryAuthentication()
                 .withUser("user")
-                .password(encoder.encode("pwd"))
+                .password(encoder.encode("rpwd"))
                 .roles("USER")
                 .and()
                 .withUser("admin")
-                .password(encoder.encode("admin"))
+                .password(encoder.encode("radmin"))
                 .roles("USER", "ADMIN");
     }
 
@@ -38,7 +39,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/index.html", "/", "/home", "/login", "/logout").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST, "/api/recipes").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/recipes/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/recipes/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/user", "/api/enums", "/api/recipes", "/api/recipes/*").hasAnyRole("ADMIN", "USER")
+                .anyRequest().denyAll()
         ;
     }
 

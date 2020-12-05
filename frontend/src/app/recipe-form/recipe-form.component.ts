@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {Recipe} from "../model/recipe";
 import {ActivatedRoute, Router} from "@angular/router";
 import {RecipeService} from "../service/recipe.service";
+import {EnumService} from "../service/enum.service";
 
 @Component({
   selector: 'app-recipe-form',
@@ -15,12 +16,25 @@ export class RecipeFormComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private recipeService: RecipeService) {
+    private recipeService: RecipeService,
+    public enumService: EnumService) {
+
     this.recipe = new Recipe();
+    const param = this.route.snapshot.paramMap.get('id');
+    if (param) {
+      const id = +param;
+      this.getRecipe(id);
+    }
+  }
+
+  getRecipe(id: number) {
+    this.recipeService.getRecipe(id).subscribe(
+      recipe => this.recipe = recipe
+    );
   }
 
   onSubmit() {
-    this.recipeService.save(this.recipe).subscribe(result => this.gotoRecipeList());
+    this.recipeService.saveRecipe(this.recipe).subscribe(result => this.gotoRecipeList());
   }
 
   gotoRecipeList() {

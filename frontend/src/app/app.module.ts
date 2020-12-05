@@ -1,30 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {Injectable, NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { RecipeListComponent } from './recipe-list/recipe-list.component';
-import { RecipeFormComponent } from './recipe-form/recipe-form.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {RecipeListComponent} from './recipe-list/recipe-list.component';
+import {RecipeFormComponent} from './recipe-form/recipe-form.component';
 import {
   HTTP_INTERCEPTORS,
   HttpClientModule,
   HttpErrorResponse,
   HttpEvent,
-  HttpHandler, HttpInterceptor,
+  HttpHandler,
+  HttpInterceptor,
   HttpRequest,
   HttpXsrfTokenExtractor
 } from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RecipeService} from "./service/recipe.service";
-import { PanelComponent } from './panel/panel.component';
-import { RecipeCategoryListPipe } from './pipes/recipe-category-list.pipe';
-import { RecipeFilterCategoryPipe } from './pipes/recipe-filter-category.pipe';
-import { LoginComponent } from './login/login.component';
+import {PanelComponent} from './panel/panel.component';
+import {RecipeCategoryListPipe} from './pipes/recipe-category-list.pipe';
+import {RecipeFilterCategoryPipe} from './pipes/recipe-filter-category.pipe';
+import {LoginComponent} from './login/login.component';
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {Router} from "@angular/router";
 import {EnumService} from "./service/enum.service";
 import {EnumResolve} from "./resolvers/enum.resolve";
+import {EnumValidPipe} from './pipes/enum-valid.pipe';
+import {ModalModule} from "ngx-bootstrap/modal";
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -86,13 +89,16 @@ export class HttpXsrfInterceptor implements HttpInterceptor {
     PanelComponent,
     RecipeCategoryListPipe,
     RecipeFilterCategoryPipe,
-    LoginComponent
+    LoginComponent,
+    EnumValidPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    ModalModule.forRoot()
   ],
   providers: [RecipeService,
     EnumService,

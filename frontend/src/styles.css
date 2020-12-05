@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+form label.required:before
+{
+  color: red;
+  content: " *";
+}
+
+input:invalid {
+  background-color: #ffe6e6;
+}
+
+input:valid {
+  background-color: #FFFFFF;
+}
+
+select:invalid {
+  background-color: #ffe6e6;
+}
+
+select:valid {
+  background-color: #FFFFFF;
+}

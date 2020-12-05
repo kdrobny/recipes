@@ -4,7 +4,13 @@
                [title]="recipeCategory.desc" [opened]="recipeCategory.opened"
                (toggle)="recipeCategory.opened = !recipeCategory.opened">
       <div *ngFor="let recipe of recipes | recipeFilterCategory:recipeCategory.desc">
-        <h3>{{ recipe.title }}</h3>
+        <h3>
+          <a *ngIf="recipeService.isAdmin" [routerLink]="['/editrecipe', recipe.id]">{{ recipe.title }}</a>
+          <span *ngIf="!recipeService.isAdmin">{{ recipe.title }}</span>
+          <button *ngIf="recipeService.isAdmin" type="button" [hidden]="false" class="btn-danger pull-right" (click)="openModal(template, recipe)">
+             <i class="fa fa-times"></i>
+          </button>
+        </h3>
         <p><i>Difficulty: {{recipe.difficultyDescRO}} PreparationTime: {{recipe.preparationTimeDescRO}}</i></p>
         <p>{{ recipe.ingredients }}</p>
         <p>{{ recipe.directions }}</p>
@@ -13,3 +19,11 @@
 
   </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>{{delMsg}}</p>
+    <button type="button" class="btn btn-primary" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-default" (click)="decline()" >No</button>
+  </div>
+</ng-template>

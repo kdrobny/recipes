@@ -1,26 +1,69 @@
 <div class="card my-5">
   <div class="card-body">
     <form (ngSubmit)="onSubmit()" #recipeForm="ngForm">
-      <div class="form-group">
-        <label for="category">Category</label>
-        <input type="text" [(ngModel)]="recipe.idCategory"
-               class="form-control"
-               id="category"
-               name="category"
-               placeholder="Enter category"
-               required #category="ngModel">
+      <div class="form-group col-md-12">
+        <div class="row">
+          <label class="col-md-2 required" for="title">Title</label>
+          <input type="text" [(ngModel)]="recipe.title"
+                 class="col-md-10 form-control"
+                 id="title"
+                 name="title"
+                 placeholder="Enter title"
+                 required #title="ngModel">
+        </div>
       </div>
-      <div [hidden]="!category.pristine" class="alert alert-danger">Category is required</div>
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" [(ngModel)]="recipe.title"
-               class="form-control"
-               id="title"
-               name="title"
-               placeholder="Enter title"
-               required #title="ngModel">
-        <div [hidden]="!title.pristine" class="alert alert-danger">Title is required</div>
+
+      <div class="form-group col-md-12">
+        <div class="row">
+          <label class="col-md-2 required" for="ingredients">Ingredients</label>
+          <input type="text" [(ngModel)]="recipe.ingredients"
+                 class="col-md-10 form-control"
+                 id="ingredients"
+                 name="ingredients"
+                 placeholder="Enter ingredients"
+                 required #ingredients="ngModel">
+        </div>
       </div>
+
+      <div class="form-group col-md-12">
+        <div class="row">
+          <label class="col-md-2 required" for="directions">Directions</label>
+          <input type="text" [(ngModel)]="recipe.directions"
+                 class="col-md-10 form-control"
+                 id="directions"
+                 name="directions"
+                 placeholder="Enter directions"
+                 required #directions="ngModel">
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <div class="row">
+          <label class="col-md-2 required" for="category">Recipe category</label>
+          <select class="col-md-10 form-control required" name="category" id="category" [(ngModel)]="recipe.idCategory" required #category="ngModel">
+            <option *ngFor="let rc of enumService.getRecipeCategory() | enumValid" [ngValue]="rc.id">{{rc.desc}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <div class="row">
+          <label class="col-md-2 required" for="difficulty">Recipe difficulty</label>
+          <select class="col-md-10 form-control required" name="difficulty" id="difficulty" [(ngModel)]="recipe.idDifficulty" required #difficulty="ngModel">
+            <option *ngFor="let rd of enumService.getRecipeDifficulty() | enumValid" [ngValue]="rd.id">{{rd.desc}}</option>
+          </select>
+        </div>
+      </div>
+
+        <div class="form-group col-md-12">
+          <div class="row">
+            <label class="col-md-2 required" for="preparationTime">Recipe preparation time</label>
+            <select class="col-md-10 form-control required" name="preparationTime" id="preparationTime" [(ngModel)]="recipe.idPreparationTime" required #preparationTime="ngModel">
+              <option *ngFor="let rpt of enumService.getRecipePreparationTime() | enumValid" [ngValue]="rpt.id">{{rpt.desc}}</option>
+            </select>
+          </div>
+        </div>
+
       <button type="submit" [disabled]="!recipeForm.form.valid"
               class="btn btn-info">Submit
       </button>

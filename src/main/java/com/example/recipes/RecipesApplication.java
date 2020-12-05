@@ -9,8 +9,12 @@ import com.example.recipes.persistance.repo.RecipeDifficultyRepository;
 import com.example.recipes.persistance.repo.RecipePreparationTimeRepository;
 import com.example.recipes.persistance.repo.RecipeRepository;
 import com.example.recipes.rest.dto.RecipeDto;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MappingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -30,7 +34,7 @@ public class RecipesApplication {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
-        PropertyMap<Recipe, RecipeDto> recipeMap = new PropertyMap<Recipe, RecipeDto>() {
+        PropertyMap<Recipe, RecipeDto> recipeMapToDto = new PropertyMap<Recipe, RecipeDto>() {
             protected void configure() {
                 map().setCategoryDescRO(source.getRecipeCategory().getDesc());
                 map().setPreparationTimeDescRO(source.getRecipePreparationTime().getDesc());
@@ -38,7 +42,37 @@ public class RecipesApplication {
             }
         };
 
+        Converter<Long, RecipeCategory> convertToRecipeCategory = context -> {
+            RecipeCategory rc = new RecipeCategory();
+            rc.setId(context.getSource());
+            return rc;
+        };
+
+        Converter<Long, RecipeDifficulty> convertToRecipeDifficulty = context -> {
+            RecipeDifficulty rd = new RecipeDifficulty();
+            rd.setId(context.getSource());
+            return rd;
+        };
+
+        Converter<Long, RecipePreparationTime> convertToRecipePreparationTime = context -> {
+            RecipePreparationTime rpt = new RecipePreparationTime();
+            rpt.setId(context.getSource());
+            return rpt;
+        };
+
+        PropertyMap<RecipeDto, Recipe> recipeMap = new PropertyMap<RecipeDto, Recipe>() {
+            @Override
+            protected void configure() {
+                using(convertToRecipeCategory).map(source.getIdCategory()).setRecipeCategory(null);
+                using(convertToRecipeDifficulty).map(source.getIdDifficulty()).setRecipeDifficulty(null);
+                using(convertToRecipePreparationTime).map(source.getIdPreparationTime()).setRecipePreparationTime(null);
+            }
+        };
+
         modelMapper.addMappings(recipeMap);
+        modelMapper.addMappings(recipeMapToDto);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.validate();
 
         return modelMapper;
     }
