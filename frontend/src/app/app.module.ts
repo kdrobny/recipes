@@ -28,6 +28,11 @@ import {EnumService} from "./service/enum.service";
 import {EnumResolve} from "./resolvers/enum.resolve";
 import {EnumValidPipe} from './pipes/enum-valid.pipe';
 import {ModalModule} from "ngx-bootstrap/modal";
+import { RecipeFilterTitlePipe } from './pipes/recipe-filter-title.pipe';
+import { RecipeFilterIngredientsPipe } from './pipes/recipe-filter-ingredients.pipe';
+import { RecipeFilterDirectionsPipe } from './pipes/recipe-filter-directions.pipe';
+import { RecipeFilterDifficultyPipe } from './pipes/recipe-filter-difficulty.pipe';
+import { RecipeFilterPreparationTimePipe } from './pipes/recipe-filter-preparation-time.pipe';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -90,7 +95,12 @@ export class HttpXsrfInterceptor implements HttpInterceptor {
     RecipeCategoryListPipe,
     RecipeFilterCategoryPipe,
     LoginComponent,
-    EnumValidPipe
+    EnumValidPipe,
+    RecipeFilterTitlePipe,
+    RecipeFilterIngredientsPipe,
+    RecipeFilterDirectionsPipe,
+    RecipeFilterDifficultyPipe,
+    RecipeFilterPreparationTimePipe
   ],
   imports: [
     BrowserModule,

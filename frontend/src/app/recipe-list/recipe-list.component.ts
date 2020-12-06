@@ -13,9 +13,16 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 export class RecipeListComponent implements OnInit {
   recipes: Recipe[];
   recipeCategoryList: Enum[];
+  recipeDifficultyList: Enum[];
+  recipePreparationTimeList: Enum[];
   modalRef: BsModalRef;
   recipeToDel: Recipe;
   delMsg: string;
+  titleFilter: string;
+  ingredientsFilter: string;
+  directionsFilter: string;
+  difficultyDescFilter: string;
+  preparationTimeDescFilter: string;
 
   constructor(private recipeService: RecipeService,
               private enumService: EnumService,
@@ -28,6 +35,10 @@ export class RecipeListComponent implements OnInit {
       this.recipes = data;
     });
     this.recipeCategoryList = this.enumService.getRecipeCategory();
+    this.recipeDifficultyList = this.enumService.getRecipeDifficulty();
+    this.recipeDifficultyList.push({"id" : null, "desc" : null, "valid" : null, "ord" : null});
+    this.recipePreparationTimeList = this.enumService.getRecipePreparationTime();
+    this.recipePreparationTimeList.push({"id" : null, "desc" : null, "valid" : null, "ord" : null});
   }
 
   deleteRecipe(recipe: Recipe) {

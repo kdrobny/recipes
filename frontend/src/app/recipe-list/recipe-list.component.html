@@ -1,9 +1,48 @@
 <div class="card my-5">
   <div class="card-body">
+    <div class="col-md-12 row">
+      <label class="col-md-1"><i>Filter by</i></label>
+      <div class="col-md-3">
+        <label>Title:
+          <input type='text' [(ngModel)]='titleFilter' />
+        </label>
+      </div>
+      <div class="col-md-4">
+        <label>Ingredients:
+          <input type='text' [(ngModel)]='ingredientsFilter' />
+        </label>
+      </div>
+      <div class="col-md-4">
+        <label>Directions:
+          <input type='text' [(ngModel)]='directionsFilter' />
+        </label>
+      </div>
+    </div>
+    <div class="col-md-12 row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-3">
+        <label>Difficulty:
+          <select name="difficulty" id="difficulty" [(ngModel)]='difficultyDescFilter'>
+            <option *ngFor="let rd of recipeDifficultyList" [ngValue]="rd.desc">{{rd.desc}}</option>
+          </select>
+        </label>
+      </div>
+      <div class="col-md-4">
+        <label>PreparationTime:
+          <select name="preparationTime" id="preparationTime" [(ngModel)]="preparationTimeDescFilter">
+            <option *ngFor="let rpt of recipePreparationTimeList" [ngValue]="rpt.desc">{{rpt.desc}}</option>
+          </select>
+        </label>
+      </div>
+    </div>
     <app-panel *ngFor="let recipeCategory of recipeCategoryList | recipeCategoryList"
                [title]="recipeCategory.desc" [opened]="recipeCategory.opened"
                (toggle)="recipeCategory.opened = !recipeCategory.opened">
-      <div *ngFor="let recipe of recipes | recipeFilterCategory:recipeCategory.desc">
+      <div *ngFor="let recipe of recipes | recipeFilterCategory:recipeCategory.desc
+          | recipeFilterTitle:titleFilter | recipeFilterDifficulty:difficultyDescFilter
+          | recipeFilterDirections:directionsFilter | recipeFilterIngredients:ingredientsFilter
+          | recipeFilterPreparationTime:preparationTimeDescFilter">
         <h3>
           <a *ngIf="recipeService.isAdmin" [routerLink]="['/editrecipe', recipe.id]">{{ recipe.title }}</a>
           <span *ngIf="!recipeService.isAdmin">{{ recipe.title }}</span>
