@@ -10,6 +10,7 @@ import com.example.recipes.persistance.repo.RecipePreparationTimeRepository;
 import com.example.recipes.rest.dto.EnumDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -42,6 +41,7 @@ public class EnumController {
             "RecipeDifficulty",
             "RecipePreparationTime");
 
+    @Cacheable("enums")
     @GetMapping
     public Map<String, Map<String, Object>> findAll() {
         Map<String, Map<String, Object>> scrEnums = new HashMap<>(enums.size());

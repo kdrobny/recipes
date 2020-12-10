@@ -1,10 +1,6 @@
 package com.example.recipes.rest;
 
-import com.example.recipes.RecipesApplication;
 import com.example.recipes.persistance.model.Recipe;
-import com.example.recipes.persistance.model.RecipeCategory;
-import com.example.recipes.persistance.model.RecipeDifficulty;
-import com.example.recipes.persistance.model.RecipePreparationTime;
 import com.example.recipes.persistance.repo.RecipeCategoryRepository;
 import com.example.recipes.persistance.repo.RecipeRepository;
 import com.example.recipes.rest.dto.RecipeDto;
@@ -14,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +22,8 @@ import java.util.stream.StreamSupport;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/recipes")
 public class RecipeController {
-    private static final Logger log = LoggerFactory.getLogger(RecipeController.class);
-
     @Autowired
     private RecipeRepository recipeRepository;
-
-    @Autowired
-    private RecipeCategoryRepository recipeCategoryRepository;
 
     @Autowired
     private ModelMapper modelMapper;
